@@ -508,44 +508,6 @@ If JUSTIFY is non-nil, justify as well as fill the paragraph."
         (do-auto-fill)))))
 
 
-;;; (comment) macro formatting
-;; borrowed from clojure-mode
-
-(defconst janet--comment-macro-regexp
-  "\\(?1:(comment\\_>\\)"
-  "Regexp matching the (comment) macro.")
-
-(defun janet--search-comment-macro-internal (limit)
-  "Search for a comment forward stopping at LIMIT."
-  (when (search-forward-regexp janet--comment-macro-regexp limit t)
-    (let* ((md (match-data))
-           (start (match-beginning 1))
-           (state (syntax-ppss start)))
-      ;; inside string or comment?
-      (if (or (nth 3 state)
-              (nth 4 state))
-          (janet--search-comment-macro-internal limit)
-        (goto-char start)
-        (forward-sexp 1)
-        ;; Data for (match-end 1).
-        (setf (elt md 3) (point))
-        (set-match-data md)
-        t))))
-
-(defun janet--search-comment-macro (limit)
-  "Find comment macros and set the match data.
-Search from point up to LIMIT.  The region that should be
-considered a comment is between `(match-beginning 1)'
-and `(match-end 1)'."
-  (let ((result 'retry))
-    (while (and (eq result 'retry) (<= (point) limit))
-      (condition-case nil
-          (setq result (janet--search-comment-macro-internal limit))
-        (end-of-file (setq result nil))
-        (scan-error  (setq result 'retry))))
-    result))
-
-
 ;;; General font-locking
 (defconst janet-font-lock-keywords
   (eval-when-compile
@@ -690,8 +652,6 @@ and `(match-end 1)'."
        ;; this matching group must be font-locked to `nil' otherwise CDSH breaks.
        (1 nil))
 
-      ;; (comment ...) macros.
-      (janet--search-comment-macro 1 font-lock-comment-face t)
       ;; Highlight `code` marks, just like `elisp'.
       (,(rx "`" (group-n 1
                          (+ (or (syntax symbol) (syntax word)))) "`")
