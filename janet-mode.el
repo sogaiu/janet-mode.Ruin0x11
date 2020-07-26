@@ -28,7 +28,6 @@
 (require 'inf-lisp)
 (require 'lisp-mode)
 (require 'prog-mode)
-(require 'eval-sexp-fu nil t)
 
 
 ;;; Customization
@@ -428,14 +427,6 @@ Inherits from `emacs-lisp-mode-syntax-table'.")
       (beginning-of-defun)
       (cons (point) end))))
 
-(defun janet-mode-eval-sexp-fu-setup ()
-  "Set up `janet-mode' with `eval-sexp-fu'."
-
-  (define-eval-sexp-fu-flash-command lisp-eval-last-sexp
-    (eval-sexp-fu-flash (janet--bounds-of-last-sexp)))
-  (define-eval-sexp-fu-flash-command lisp-eval-defun
-    (eval-sexp-fu-flash (janet--bounds-of-last-defun))))
-
 (defun janet-mode-hooks ()
   ;; `electric-layout-post-self-insert-function' prevents indentation in strings
   ;; and comments, force indentation in docstrings:
@@ -459,9 +450,7 @@ Inherits from `emacs-lisp-mode-syntax-table'.")
 \\{janet-mode-map}"
   (janet-mode-variables)
   (janet-font-lock-setup)
-  (janet-mode-hooks)
-  (when (not (null eval-sexp-fu-flash-mode))
-    (janet-mode-eval-sexp-fu-setup)))
+  (janet-mode-hooks))
 
 
 ;;; Janet fill-function
