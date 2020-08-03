@@ -146,7 +146,7 @@ of `error' with a user-friendly message."
   (or (janet-repl-get-process)
       (if interactivep
           (user-error
-           "Start a Janet process first with `M-x run-python' or `%s'."
+           "Start a Janet process first with `M-x run-lisp' or `%s'."
            ;; Get the binding.
            (key-description
             (where-is-internal
