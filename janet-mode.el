@@ -330,6 +330,13 @@ Open Janet buffer if not open."
   (interactive)
   (lisp-eval-region (point-min) (point-max) and-go))
 
+(defun run-janet-split-window ()
+  (interactive)
+  (split-window-below)
+  (other-window 1)
+  (run-janet inferior-lisp-program)
+  (other-window -1))
+
 (defvar janet-mode-map
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map prog-mode-map)
@@ -342,12 +349,24 @@ Open Janet buffer if not open."
     (define-key map "\C-c\C-l" 'janet-eval-buffer)
     (define-key map "\C-c\C-c" 'lisp-compile-defun)
     (define-key map "\C-c\C-z" 'switch-to-lisp)
-                                        ; (define-key janet-mode-map "\C-c\C-l" 'lisp-load-file)
-                                        ; (define-key janet-mode-map "\C-c\C-a" 'lisp-show-arglist)
+    ;; (define-key janet-mode-map "\C-c\C-l" 'lisp-load-file)
+    ;; (define-key janet-mode-map "\C-c\C-a" 'lisp-show-arglist)
     (define-key map "\C-c\C-d" 'janet-doc)
     (define-key map "\C-c\C-f" 'lisp-show-function-documentation)
     (define-key map "\C-c\C-v" 'lisp-show-variable-documentation)
-    map))
+    (easy-menu-define janet-mode-map map
+      "Janet Mode Menu"
+      '("Janet"
+        ["Eval buffer" janet-eval-buffer t]
+        ["Eval last expression" lisp-eval-last-sexp t]
+        ["Eval region" lisp-eval-region t]
+        "--"
+        ["Doc at point" janet-doc t]
+        "--"
+        ["Start Janet" run-janet-split-window t]
+        ["Switch to REPL" switch-to-lisp t]))
+    map)
+  "Janet mode map.")
 
 (defvar janet-mode-syntax-table
   (let ((table (copy-syntax-table emacs-lisp-mode-syntax-table)))
