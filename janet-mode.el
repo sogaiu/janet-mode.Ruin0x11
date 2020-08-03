@@ -131,6 +131,8 @@ double quotes on the third column."
   :type 'integer
   :safe 'integerp)
 
+(defalias 'run-janet 'run-lisp)
+
 
 ;;; REPL interaction
 ;; mostly from python-mode
