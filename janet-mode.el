@@ -584,14 +584,16 @@ If JUSTIFY is non-nil, justify as well as fill the paragraph."
        1 font-lock-builtin-face)
       ;; Built-in binding and flow of control forms
       (,(concat
-         "(\\(?:clojure.core/\\)?"
+         "("
          (regexp-opt
           '("case" "cond"
-            "for" "when" "when-not" "when-let" "when-first" "when-some"
-            "each" "if-let" "if-not" "if-some" "length"
-            ".." "->" "->>" "as->" "doto" "and" "or" "unless"
-            "dosync" "doseq" "dotimes" "dorun" "doall"
-            "ns" "in-ns" "try" "while" "loop" "with-syms" "with-dyns"
+            "for" "when" "when-let"
+            "each" "eachk" "eachp" "eachy"
+            "if-let" "if-not" "if-with"
+            "length"
+            "->" "->>" "-?>" "-?>>" "as->"
+            "and" "or" "unless"
+            "try" "while" "loop" "with-syms" "with-dyns" "with-vars"
             ) t)
          "\\>")
        1 font-lock-keyword-face)
@@ -601,23 +603,6 @@ If JUSTIFY is non-nil, justify as well as fill the paragraph."
             (1+ (or (syntax word) (syntax symbol)))
             symbol-end)
        0 font-lock-keyword-face)
-      (,(concat
-         "\\<"
-         (regexp-opt
-          '("*1" "*2" "*3" "*agent*"
-            "*allow-unresolved-vars*" "*assert*" "*clojure-version*"
-            "*command-line-args*" "*compile-files*"
-            "*compile-path*" "*data-readers*" "*default-data-reader-fn*"
-            "*e" "*err*" "*file*" "*flush-on-newline*"
-            "*in*" "*macro-meta*" "*math-context*" "*ns*" "*out*"
-            "*print-dup*" "*print-length*" "*print-level*"
-            "*print-meta*" "*print-readably*"
-            "*read-eval*" "*source-path*"
-            "*unchecked-math*"
-            "*use-context-classloader*" "*warn-on-reflection*")
-          t)
-         "\\>")
-       0 font-lock-builtin-face)
       ;; Dynamic variables - *something* or @*something*
       (,(concat "\\(?:\\<\\|/\\)@?\\(\\*" janet--sym-regexp "\\*\\)\\>")
        1 font-lock-variable-name-face)
