@@ -375,6 +375,7 @@ With prefix ARG, prompt for string."
         "--"
         ["Start Janet" run-janet-split-window t]
         ["Multiline Formatting"] janet-set-pretty-format t]
+        ["Multiline Formatting" janet-set-pretty-format t]
         ["Switch to REPL" switch-to-lisp t]))
     map)
   "Janet mode map.")
