@@ -340,7 +340,8 @@ With prefix ARG, prompt for string."
   (interactive)
   (lisp-eval-region (point-min) (point-max) and-go))
 
-(defun run-janet-split-window ()
+(defun janet-run-split-window ()
+  ""
   (interactive)
   (split-window-below)
   (other-window 1)
@@ -373,8 +374,7 @@ With prefix ARG, prompt for string."
         "--"
         ["Doc at point" janet-doc t]
         "--"
-        ["Start Janet" run-janet-split-window t]
-        ["Multiline Formatting"] janet-set-pretty-format t]
+        ["Start Janet" janet-run-split-window t]
         ["Multiline Formatting" janet-set-pretty-format t]
         ["Switch to REPL" switch-to-lisp t]))
     map)
