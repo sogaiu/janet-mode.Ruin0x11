@@ -20,8 +20,8 @@
 
 ;;; Commentary:
 
-;; Major mode for editing Janet. Various things are taken from
-;; `clojure-mode.'
+;; Major mode for editing Janet.  Various things are taken from
+;; `clojure-mode'.
 
 ;;; Code:
 
@@ -148,13 +148,13 @@ of `error' with a user-friendly message."
   (or (janet-repl-get-process)
       (if interactivep
           (user-error
-           "Start a Janet process first with `M-x run-lisp' or `%s'."
+           "Start a Janet process first with `M-x run-lisp' or `%s'"
            ;; Get the binding.
            (key-description
             (where-is-internal
              #'run-lisp overriding-local-map t)))
         (error
-         "No inferior Janet process running."))))
+         "No inferior Janet process running"))))
 
 (defvar janet-repl-output-filter-in-progress nil)
 (defvar janet-repl-output-filter-buffer nil)
@@ -214,6 +214,7 @@ t when called interactively."
         (comint-send-string process "\n"))))
 
 (defun janet-repl-send-string-no-output (str &optional proc)
+  ""
   (let ((proc (or proc (janet-repl-get-process)))
         (comint-preoutput-filter-functions
          '(janet-repl-output-filter))
@@ -234,7 +235,7 @@ t when called interactively."
        (comint-interrupt-subjob)))))
 
 (defun janet-eval-expression (exp)
-  "Send STRING to inferior Janet PROCESS.
+  "Send EXP to inferior Janet process.
 Open Janet buffer if not open."
   (interactive
    (list (read-string "Eval: ")))
@@ -253,10 +254,12 @@ Open Janet buffer if not open."
   (janet-eval-expression "(setdyn :pretty-format \"%.20M\")"))
 
 (defun janet-doc-for (sym)
+  ""
   (let ((doc (janet-repl-send-string-no-output (format "(doc %s)" sym))))
     (when (not (string-match-p "^symbol \\(.*\\) not found\\." doc)) doc)))
 
 (defun janet-show-doc (sym)
+  ""
   (let* ((doc (janet-doc-for sym))
          (buffer (get-buffer-create "*janet-doc*"))
          (inhibit-read-only t))
@@ -275,7 +278,8 @@ Open Janet buffer if not open."
       (message "No documentation for '%s'." (strip-text-properties sym)))))
 
 (defun janet-doc (arg)
-  "Run `doc' for the method at point."
+  "Run `doc' for the method at point.
+With prefix ARG, prompt for string."
   (interactive "P")
   (let ((thing (thing-at-point 'symbol)))
     (janet-show-doc
@@ -297,6 +301,7 @@ Open Janet buffer if not open."
 	(list (thing-at-point 'symbol) argument-index)))))
 
 (defun janet-eldoc ()
+  ""
   (when (janet-repl-get-process)
     (if-let ((fnsym (janet--fnsym-in-current-sexp))
              (doc (janet-doc-for (car fnsym))))
@@ -437,7 +442,7 @@ Inherits from `emacs-lisp-mode-syntax-table'.")
 
 (defun janet-comint-output-filter-function (output)
   "Hook run after content is put into comint buffer.
-   OUTPUT is a string with the contents of the buffer"
+OUTPUT is a string with the contents of the buffer"
   (ansi-color-filter-apply output))
 
 (defun janet--bounds-of-last-sexp ()
