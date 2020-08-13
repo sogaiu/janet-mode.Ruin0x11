@@ -247,6 +247,11 @@ Open Janet buffer if not open."
     (pop-to-buffer inferior-lisp-buffer nil t))
   )
 
+(defun janet-set-pretty-format ()
+  "Set :pretty-format to multiline."
+  (interactive)
+  (janet-eval-expression "(setdyn :pretty-format \"%.20M\")"))
+
 (defun janet-doc-for (sym)
   (let ((doc (janet-repl-send-string-no-output (format "(doc %s)" sym))))
     (when (not (string-match-p "^symbol \\(.*\\) not found\\." doc)) doc)))
@@ -364,6 +369,7 @@ Open Janet buffer if not open."
         ["Doc at point" janet-doc t]
         "--"
         ["Start Janet" run-janet-split-window t]
+        ["Multiline Formatting"] janet-set-pretty-format t]
         ["Switch to REPL" switch-to-lisp t]))
     map)
   "Janet mode map.")
