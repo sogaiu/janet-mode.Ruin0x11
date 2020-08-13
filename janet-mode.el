@@ -374,7 +374,6 @@ With prefix ARG, prompt for string."
         ["Doc at point" janet-doc t]
         "--"
         ["Start Janet" run-janet-split-window t]
-        ["Multiline Formatting"] janet-set-pretty-format t]
         ["Multiline Formatting" janet-set-pretty-format t]
         ["Switch to REPL" switch-to-lisp t]))
     map)
