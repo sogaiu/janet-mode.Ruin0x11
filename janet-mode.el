@@ -647,19 +647,6 @@ If JUSTIFY is non-nil, justify as well as fill the paragraph."
        (1 'janet-keyword-face)
        (2 'janet-keyword-face))
 
-      ;; clojure symbols not matched by the previous regexps; influences CIDER's
-      ;; dynamic syntax highlighting (CDSH). See https://git.io/vxEEA:
-      (,(concat "\\(" janet--sym-regexp "?\\)\\(/\\)\\(" janet--sym-regexp "\\)")
-       (1 font-lock-type-face)
-       ;; 2nd and 3th matching groups can be font-locked to `nil' or `default'.
-       ;; CDSH seems to kick in only for functions and variables referenced w/o
-       ;; writing their namespaces.
-       (2 nil)
-       (3 nil))
-      (,(concat "\\(" janet--sym-regexp "\\)")
-       ;; this matching group must be font-locked to `nil' otherwise CDSH breaks.
-       (1 nil))
-
       ;; Highlight `code` marks, just like `elisp'.
       (,(rx "`" (group-n 1
                          (+ (or (syntax symbol) (syntax word)))) "`")
