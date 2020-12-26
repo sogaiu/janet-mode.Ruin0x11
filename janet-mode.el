@@ -666,9 +666,6 @@ If JUSTIFY is non-nil, justify as well as fill the paragraph."
        (1 'font-lock-constant-face prepend))
       ;; Highlight escaped characters in strings.
                                         ; (clojure-font-lock-escaped-chars 0 'bold prepend)
-      ;; Highlight grouping constructs in regular expressions
-                                        ; (clojure-font-lock-regexp-groups
-                                        ;  (1 'font-lock-regexp-grouping-construct prepend)
       ))
   "Default expressions to highlight in Janet mode.")
 
