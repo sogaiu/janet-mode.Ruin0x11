@@ -633,16 +633,6 @@ If JUSTIFY is non-nil, justify as well as fill the paragraph."
           '("error") t)
          "\\>")
        0 font-lock-warning-face)
-      ;; Character literals - \1, \a, \newline, \u0000
-      ("\\\\\\([[:punct:]]\\|[a-z0-9]+\\>\\)" 0 'janet-character-face)
-
-      ;; namespace definitions: (ns foo.bar)
-      (,(concat "(\\<ns\\>[ \r\n\t]*"
-                ;; Possibly metadata, shorthand and/or longhand
-                "\\(?:\\^?\\(?:{[^}]+}\\|:[^ \r\n\t]+[ \r\n\t]\\)[ \r\n\t]*\\)*"
-                ;; namespace
-                "\\(" janet--sym-regexp "\\)")
-       (1 font-lock-type-face))
 
       ;; TODO dedupe the code for matching of keywords, type-hints and unmatched symbols
 
@@ -1240,13 +1230,11 @@ work).  To set it from Lisp code, use
 
 (define-janet-indent
   ;; built-ins
-  (ns 1)
   (fn :defn)
   (def :defn)
   (def- :defn)
   (defn :defn)
   (defn- :defn)
-  (bound-fn :defn)
   (if 1)
   (if-not 1)
   (case 1)
@@ -1256,25 +1244,16 @@ work).  To set it from Lisp code, use
   (while 1)
   (do 0)
   (comment 0)
-  (doto 1)
-  (fdef 1)
 
   (try 0)
-  (catch 2)
-  (finally 0)
 
   ;; binding forms
   (let 1)
   (loop 1)
   (each 1)
-  (each 1)
   (for :defn)
-  (doseq 1)
-  (dotimes 1)
   (when-let 1)
   (if-let 1)
-  (when-some 1)
-  (if-some 1)
 
   (defmacro :defn)
   (defmacro- :defn))
